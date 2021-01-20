@@ -31,13 +31,13 @@ class RegionsApplicationTests {
 	     assertThat(found.contains("region"));
 	}
 	
-	@Test
+	/*@Test
 	public void something() {
 		String region = "CN";
 		String found = service.getRegions(region);
 		System.out.println(found);
 		assertThat(found.contains(region.toLowerCase()));
-	}
+	}*/
 	/*
 	@Test
 	public void givenEmployees_whenGetEmployees_thenStatus200()
