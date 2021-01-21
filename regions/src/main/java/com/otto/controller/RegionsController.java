@@ -18,14 +18,14 @@ public class RegionsController {
 
 	@GetMapping("/regions")
 	public String getRegions(@RequestParam(name="region", defaultValue="ALL", required=false) String region) {
-		List<String> allowedValues = getAllowedValuesFromDB();
+		List<String> allowedValues = getAllowedValues();
 	     if(allowedValues.contains(region)){
 	 		return regionsService.getRegions(region);
 	     }
 	     return "Enter valid region(EU, US, AP, CN, SA, AF, CA or ALL)";
 	}
 	
-	private List<String> getAllowedValuesFromDB(){
+	private List<String> getAllowedValues(){
 		String[] av = {"EU","US","AP","CN","SA","AF","CA","ALL"};
 	    List<String> allowedValues = Arrays.asList(av);
 	    return allowedValues;
