@@ -20,8 +20,8 @@ public class RegionsService {
 		JSONObject responseJson = new JSONObject(response);
         JSONArray array = responseJson.getJSONArray("prefixes");
         
-        for(Object reg: array) {
-        	JSONObject json = new JSONObject(reg.toString());
+        for(int i=0;i<array.length();i++) {
+        	JSONObject json = new JSONObject(array.get(i).toString());
         	if(region.equals("ALL")) {
         		result = result + json + System.getProperty("line.separator");
         	}
@@ -33,8 +33,8 @@ public class RegionsService {
         //Read all ipv6_prefixes
         array = responseJson.getJSONArray("ipv6_prefixes");
         
-        for(Object reg: array) {
-        	JSONObject json = new JSONObject(reg.toString());
+        for(int i=0;i<array.length();i++) {
+        	JSONObject json = new JSONObject(array.get(i).toString());
         	if(region.equals("ALL")) {
         		result = result + json + System.getProperty("line.separator");
         	}
@@ -42,7 +42,7 @@ public class RegionsService {
         		result = result + json + System.getProperty("line.separator");
         	}
         }
-        System.out.println(result);
+        //System.out.println(result);
         
         return result;
 	}
