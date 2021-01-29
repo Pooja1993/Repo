@@ -7,9 +7,7 @@ import java.net.URLConnection;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.stereotype.Service;
 
-@Service
 public class RegionsService {
 	
 	public String getRegions(String region) {
