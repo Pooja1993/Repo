@@ -8,6 +8,7 @@ import com.otto.controller.RegionsController;
 import com.otto.service.RegionsService;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 
@@ -15,7 +16,10 @@ import java.util.Arrays;
 class RegionsApplicationTests {
 	
 	@Autowired
-	private RegionsService service;
+	RegionsService service;
+	
+	@Autowired
+	RegionsController controller;
 	
 	@Test
 	void contextLoads() {
@@ -23,34 +27,38 @@ class RegionsApplicationTests {
 	}
 	
 	@Test
+	void contextLoadsController() {
+		assertThat(controller).isNotNull();
+	}
+	
+	@Test
 	public void readsFromURL() {
-	    String found = service.readURL();
-	    assertThat(found.contains("region"));
+	    String result = service.readURL();
+	    assertTrue(result.contains("region"));
 	}
 	
 	@Test
     public void errorMessageOnInvalidInput() {
 		String region = "CP";
-        RegionsController controller = new RegionsController();
         String result = controller.getRegions(region);
-        assertThat(result.contains("Enter valid region"));
+        assertTrue(result.contains("Enter valid region"));
     }
 	
 	@Test
 	public void containsRegionIfValid() {
 		String region = "EU";
 		String[] av = {"us","ap","cn","sa","af","ca"};
-		String found = service.getRegions(region);
-	    assertThat(found.contains(region.toLowerCase()) 
-	    		&& !Arrays.stream(av).anyMatch(found::contains));
+		String result = service.getRegions(region);
+		assertTrue(result.contains(region.toLowerCase()) 
+	    		&& !Arrays.stream(av).allMatch(result::contains));
 	}
 	
 	@Test
 	public void containsAllRegionsWithAllParam() {
 		String region = "ALL";
 		String[] av = {"eu","us","ap","cn","sa","af","ca"};
-		String found = service.getRegions(region);
-	    assertThat(Arrays.stream(av).allMatch(found::contains));
+		String result = service.getRegions(region);
+		assertTrue(Arrays.stream(av).allMatch(result::contains));
 	}
 
 }
