@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
 import com.otto.controller.RegionsController;
-import com.otto.service.RegionsService;
+import com.otto.service.RegionsServiceImpl;
 
 @SpringBootApplication
 @ComponentScan(basePackageClasses = RegionsController.class)
@@ -17,8 +17,8 @@ public class RegionsApplication {
 	}
 	
 	@Bean
-	public RegionsService getRegionService() {
-		return new RegionsService();
+	public RegionsServiceImpl getRegionService() {
+		return new RegionsServiceImpl();
 	}
 	
 }
