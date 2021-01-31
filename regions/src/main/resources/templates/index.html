@@ -1,0 +1,108 @@
+<html>
+<head>
+<style>
+input[type=text], select {
+  width: 25%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+#results {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  width: 100%;
+}
+
+#results tr:nth-child(even){background-color: #f2f2f2;}
+
+#results th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #add8e6;
+  color: white;
+}
+</style>
+<title>Regions</title></head>
+<body>
+<div>
+  <center>
+  	<h1>Regions filter</h1>
+  	<input type="text" id="query" onclick="this.select()" onKeyDown="if(event.keyCode==13) search();">
+  	<br>
+  </center>
+  	<div id="div1">
+  		<div id="results"></div>
+  	</div>
+</div>
+<script>
+function search() {
+	var region = document.getElementById('query').value;
+	var url = "http://localhost:8080/regions?region="+region;
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", url, false );
+    xmlHttp.send( null );
+    if(xmlHttp.responseText == "Enter valid region(EU, US, AP, CN, SA, AF, CA or ALL)")
+    	document.getElementById("results").innerHTML = "Enter valid region(EU, US, AP, CN, SA, AF, CA or ALL)";
+    else {
+    	var str = JSON.parse(xmlHttp.responseText);
+    	addTable(str);
+    }
+}
+
+function addTable(str) {
+	document.getElementById("results").innerHTML = "";
+	if(str.length==0){
+		document.getElementById("results").style.textAlign = "center";
+		return;
+	}
+    var myTableDiv = document.getElementById("results")
+    var table = document.createElement('TABLE')
+    var tableBody = document.createElement('TBODY')
+
+    table.appendChild(tableBody);
+
+    var heading = new Array();
+    heading[0] = "network_border_group"
+    heading[1] = "ip_prefix"
+    heading[2] = "service"
+    heading[3] = "region"
+
+    var stock = new Array()
+    for(var i=0;i<str.length;i++){
+    	if(str[i].hasOwnProperty('ip_prefix'))
+    		stock[i]= new Array(str[i].network_border_group ,str[i].ip_prefix , str[i].service ,str[i].region )
+    	else
+    		stock[i]= new Array(str[i].network_border_group ,str[i].ipv6_prefix , str[i].service ,str[i].region )
+    }
+    
+
+    //TABLE COLUMNS
+    var tr = document.createElement('TR');
+    tableBody.appendChild(tr);
+    for (i = 0; i < heading.length; i++) {
+        var th = document.createElement('TH')
+        th.width = '75';
+        th.appendChild(document.createTextNode(heading[i]));
+        tr.appendChild(th);
+    }
+
+    //TABLE ROWS
+    for (i = 0; i < stock.length; i++) {
+        var tr = document.createElement('TR');
+        for (j = 0; j < stock[i].length; j++) {
+            var td = document.createElement('TD')
+            td.appendChild(document.createTextNode(stock[i][j]));
+            tr.appendChild(td)
+        }
+        tableBody.appendChild(tr);
+    }  
+    myTableDiv.appendChild(table)
+}
+
+</script>
+</body>
+</html>

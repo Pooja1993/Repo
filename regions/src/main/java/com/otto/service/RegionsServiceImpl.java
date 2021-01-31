@@ -14,7 +14,8 @@ public class RegionsServiceImpl implements RegionsService{
 	
 	@Override
 	public String getRegions(String region) {
-		String result = "";
+		//String result = "";
+		JSONArray result = new JSONArray();
 		String response = readURL();
 		
 		//Read all prefixes from response
@@ -24,10 +25,10 @@ public class RegionsServiceImpl implements RegionsService{
         for(int i=0;i<array.length();i++) {
         	JSONObject json = new JSONObject(array.get(i).toString());
         	if(region.equals("ALL")) {
-        		result = result + json + System.getProperty("line.separator");
+        		result.put(json);
         	}
         	else if(json.get("region").toString().toUpperCase().contains(region)) {
-        		result = result + json + System.getProperty("line.separator");
+        		result.put(json);
         	}
         }
         
@@ -37,15 +38,15 @@ public class RegionsServiceImpl implements RegionsService{
         for(int i=0;i<array.length();i++) {
         	JSONObject json = new JSONObject(array.get(i).toString());
         	if(region.equals("ALL")) {
-        		result = result + json + System.getProperty("line.separator");
+        		result.put(json);
         	}
         	else if(json.get("region").toString().toUpperCase().contains(region)) {
-        		result = result + json + System.getProperty("line.separator");
+        		result.put(json);
         	}
         }
         //System.out.println(result);
         
-        return result;
+        return result.toString();
 	}
 	
 	@Override
